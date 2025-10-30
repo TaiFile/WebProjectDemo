@@ -1,93 +1,118 @@
-# todo-list
+# Desafio Técnico — Todo List
 
+Bem-vindo ao **Desafio Técnico da Cati Jr**!
+Neste desafio, você deverá desenvolver um sistema de **gerenciamento de tarefas** inspirado no Trello, implementando as funcionalidades essenciais e, se desejar, recursos adicionais para aprimorar a experiência do usuário.
 
+Este desafio tem como objetivo avaliar suas habilidades técnicas, organização e atenção aos detalhes. Características fundamentais para fazer parte do nosso time.
 
-## Getting started
+## Design de Referência
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+O layout do projeto está disponível no Figma:
+🔗 [Acessar Figma](https://www.figma.com/design/h38QDuuw2oOo5JPMdk8EFB/Projeto-Trainee-2025---Produtos?node-id=30-2031&p=f&m=dev)
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+## Stack e Requisitos
 
-## Add your files
+### **Frontend**
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
+- React
+- TypeScript
+- Tailwind CSS
 
-```
-cd existing_repo
-git remote add origin https://gitlab.com/cati-jr/desafios-tecnicos/todo-list.git
-git branch -M main
-git push -uf origin main
-```
+### **Backend (escolha uma das opções abaixo)**
 
-## Integrate with your tools
+- **Spring Boot (Java)**
+- **Nest.js (TypeScript)**
 
-- [ ] [Set up project integrations](https://gitlab.com/cati-jr/desafios-tecnicos/todo-list/-/settings/integrations)
+### **Pré-requisitos gerais**
 
-## Collaborate with your team
+- Java 21
+- Maven
+- Node 20
+- Docker
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
+## Requisitos de Desenvolvimento
 
-## Test and Deploy
+### **Backend**
 
-Use the built-in continuous integration in GitLab.
+Implemente as rotas e operações a seguir:
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+#### **Listas**
 
-***
+- **[POST] `/lists`** — cria uma nova lista
 
-# Editing this README
+  - Campos: `name: string`
+  - O nome da lista deve ser único
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+- **[GET] `/lists`** — retorna todas as listas
+- **[GET] `/lists/:id`** — retorna a lista pelo ID
 
-## Suggestions for a good README
+  - Deve validar se a lista existe
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+- **[PUT] `/lists/:id`** — atualiza os dados da lista
 
-## Name
-Choose a self-explaining name for your project.
+  - Campos: `name: string`
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+- **[DELETE] `/lists/:id`** — remove uma lista existente
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+  - Deve verificar se há tarefas associadas
+  - O candidato pode optar por **proibir a remoção** ou **remover em cascata**
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+#### **Tarefas**
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+- **[POST] `/tasks`** — cria uma nova tarefa
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+  - Campos:
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+    - `name: string`
+    - `description: string` _(opcional)_
+    - `priority: enum (LOW, MEDIUM, HIGH, VERY_HIGH)`
+    - `expectedFinishDate: date` _(opcional, deve ser futura)_
+    - `listId: integer`
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+- **[GET] `/tasks/:id`** — retorna a tarefa pelo ID
+- **[PUT] `/tasks/:id`** — atualiza uma tarefa existente
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+  - Campos (todos opcionais):
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+    - `name`, `description`, `priority`, `expectedFinishDate`, `listId`, `finishDate`
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+- **[DELETE] `/tasks/:id`** — remove a tarefa pelo ID
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+#### **Testes**
 
-## License
-For open source projects, say how it is licensed.
+- Implemente **testes unitários** para o CRUD de **listas ou tarefas** (à sua escolha).
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+  - Spring Boot → JUnit
+  - Nest.js → Vitest
+
+### **Frontend**
+
+Implemente o frontend de acordo com o Figma, garantindo fidelidade visual e boa experiência de uso.
+
+- Criação dos componentes necessários
+- Integração com o backend
+- Responsividade
+- Funcionalidade de **drag and drop** para mover tarefas entre listas
+
+## Critérios de Avaliação
+
+Seu projeto será avaliado com base nos seguintes critérios:
+
+1. **Entrega completa** das funcionalidades propostas
+2. **Boas práticas** de código e organização do projeto
+3. **Robustez da implementação**, incluindo validações e tratamento de erros/exceções
+4. **Fidelidade ao layout** e atenção aos detalhes
+
+## Prazo e Entrevista Final
+
+O prazo para a conclusão do desafio é de **2 semanas** a partir da data de recebimento.
+Após o envio, o projeto será analisado pela equipe técnica, e a **entrevista final será baseada diretamente nesta atividade**, explorando suas decisões técnicas, arquitetura e raciocínio de desenvolvimento.
+
+## Dicas
+
+- Estruture bem seu código e documentação.
+- Demonstre sua capacidade de pensar como um desenvolvedor de produto, não apenas de código.
+
+### Boa sorte no desafio! 💪
+
+A nossa equipe está ansiosa para ver o seu trabalho.
