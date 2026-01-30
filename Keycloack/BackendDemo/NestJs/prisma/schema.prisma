@@ -1,0 +1,110 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User Model
+model User {
+  id            String    @id @default(uuid())
+  keycloakId    String    @unique
+  email         String    @unique
+  name          String?
+  avatarUrl     String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  // Relations
+  products      Product[]
+  payments      Payment[]
+  files         File[]
+
+  @@map("users")
+}
+
+// Product Model
+model Product {
+  id            String    @id @default(uuid())
+  name          String
+  description   String?
+  price         Float
+  stock         Int       @default(0)
+  imageUrl      String?
+  isActive      Boolean   @default(true)
+  deletedAt     DateTime? // Soft delete
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  // Relations
+  createdById   String
+  createdBy     User      @relation(fields: [createdById], references: [id])
+
+  @@map("products")
+  @@index([createdById])
+  @@index([isActive])
+}
+
+// Payment Model
+model Payment {
+  id                    String        @id @default(uuid())
+  mercadoPagoId         String?       @unique
+  preferenceId          String?
+  externalReference     String?
+  status                PaymentStatus @default(PENDING)
+  statusDetail          String?
+  amount                Float
+  currency              String        @default("BRL")
+  description           String?
+  paymentMethodId       String?
+  paymentTypeId         String?
+  transactionAmount     Float?
+  dateApproved          DateTime?
+  metadata              Json?
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+  
+  // Relations
+  userId                String
+  user                  User          @relation(fields: [userId], references: [id])
+
+  @@map("payments")
+  @@index([userId])
+  @@index([status])
+}
+
+enum PaymentStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CANCELLED
+  REFUNDED
+}
+
+// File Model
+model File {
+  id            String      @id @default(uuid())
+  originalName  String
+  mimeType      String
+  size          Int
+  storageType   StorageType
+  storagePath   String      // Local path or S3 key
+  storageUrl    String?     // Public URL if available
+  metadata      Json?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  
+  // Relations
+  uploadedById  String
+  uploadedBy    User        @relation(fields: [uploadedById], references: [id])
+
+  @@map("files")
+  @@index([uploadedById])
+}
+
+enum StorageType {
+  LOCAL
+  S3
+}
