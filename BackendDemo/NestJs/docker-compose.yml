@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: demo-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: demo_db
+      POSTGRES_USER: demo_user
+      POSTGRES_PASSWORD: demo_pass
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - demo-network
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:23.0
+    container_name: demo-keycloak
+    restart: unless-stopped
+    command: start-dev
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/demo_db  # Mudança aqui
+      KC_DB_USERNAME: demo_user
+      KC_DB_PASSWORD: demo_pass
+      KC_HOSTNAME_STRICT: false
+      KC_HTTP_ENABLED: true
+    ports:
+      - '8080:8080'
+    depends_on:
+      - postgres
+    networks:
+      - demo-network
+
+
+volumes:
+  postgres_data:
+
+networks:
+  demo-network:
+    driver: bridge
