@@ -1,8 +1,0 @@
-import { z } from 'zod';
-
-export const UpdateUserSchema = z.object({
-  name: z.string().min(1, 'Nome é obrigatório').max(255).optional(),
-  avatarUrl: z.string().url().optional(),
-});
-
-export type UpdateUserDto = z.infer<typeof UpdateUserSchema>;
