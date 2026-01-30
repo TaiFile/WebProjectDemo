@@ -19,15 +19,24 @@ export class S3StorageService implements IStorageService {
   constructor(private configService: ConfigService) {
     this.bucketName = this.configService.get<string>('AWS_S3_BUCKET');
 
+    const endpoint = this.configService.get<string>('AWS_ENDPOINT');
+
     this.s3 = new S3Client({
       region: this.configService.get<string>('AWS_REGION'),
       credentials: {
         accessKeyId: this.configService.get<string>('AWS_ACCESS_KEY_ID'),
         secretAccessKey: this.configService.get<string>('AWS_SECRET_ACCESS_KEY'),
       },
+      // Suporte para MinIO e outros S3-compatible storages
+      ...(endpoint && {
+        endpoint,
+        forcePathStyle: true, // Necessário para MinIO
+      }),
     });
 
-    this.logger.log(`S3 Storage initialized for bucket: ${this.bucketName}`);
+    this.logger.log(
+      `S3 Storage initialized for bucket: ${this.bucketName}${endpoint ? ` (endpoint: ${endpoint})` : ''}`,
+    );
   }
 
   async upload(file: Express.Multer.File, customPath?: string): Promise<UploadResult> {

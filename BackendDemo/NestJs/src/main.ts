@@ -2,8 +2,6 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AppModule } from './app.module';
-import { AllExceptionsFilter } from '@common/filters';
-import { LoggingInterceptor } from '@common/interceptors';
 
 async function bootstrap() {
   const logger = new Logger('Bootstrap');
@@ -34,11 +32,7 @@ async function bootstrap() {
     }),
   );
 
-  // Global filters
-  app.useGlobalFilters(new AllExceptionsFilter());
-
-  // Global interceptors
-  app.useGlobalInterceptors(new LoggingInterceptor());
+  // Filters e Interceptors são registrados globalmente via CommonModule
 
   // Start server
   const port = configService.get<number>('PORT', 3000);

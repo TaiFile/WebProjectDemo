@@ -16,31 +16,32 @@ services:
     networks:
       - demo-network
 
-  keycloak:
-    image: quay.io/keycloak/keycloak:23.0
-    container_name: demo-keycloak
+  minio:
+    image: minio/minio:latest
+    container_name: demo-minio
     restart: unless-stopped
-    command: start-dev
     environment:
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin
-      KC_DB: postgres
-      KC_DB_URL: jdbc:postgresql://postgres:5432/demo_db  # Mudança aqui
-      KC_DB_USERNAME: demo_user
-      KC_DB_PASSWORD: demo_pass
-      KC_HOSTNAME_STRICT: false
-      KC_HTTP_ENABLED: true
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin123
     ports:
-      - '8080:8080'
-    depends_on:
-      - postgres
+      - '9000:9000'  # API
+      - '9001:9001'  # Console
+    volumes:
+      - minio_data:/data
     networks:
       - demo-network
-
+    command: server /data --console-address ":9001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
 
 volumes:
   postgres_data:
+  minio_data:
 
 networks:
   demo-network:
     driver: bridge
+

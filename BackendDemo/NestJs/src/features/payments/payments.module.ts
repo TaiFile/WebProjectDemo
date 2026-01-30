@@ -2,12 +2,10 @@ import { Module } from '@nestjs/common';
 import { PaymentsService } from './payments.service';
 import { PaymentsController } from './payments.controller';
 import { PaymentsRepository } from './repositories/payments.repository';
-import { UsersModule } from '@features/users/users.module';
-import { PaymentsModule as PaymentsInfraModule } from '@infrastructure/payments';
-import { KeycloakModule } from '@infrastructure/keycloak';
+import { PaymentsModule as PaymentsInfraModule } from '@infrastructure/payments/payments.module';
 
 @Module({
-  imports: [UsersModule, PaymentsInfraModule, KeycloakModule],
+  imports: [PaymentsInfraModule],
   providers: [PaymentsService, PaymentsRepository],
   controllers: [PaymentsController],
   exports: [PaymentsService, PaymentsRepository],

@@ -19,6 +19,7 @@ export class LoggingInterceptor implements NestInterceptor {
 
     return next.handle().pipe(
       tap({
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         next: (data) => {
           const response = context.switchToHttp().getResponse();
           const delay = Date.now() - now;

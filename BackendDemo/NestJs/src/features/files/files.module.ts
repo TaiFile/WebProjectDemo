@@ -2,11 +2,10 @@ import { Module } from '@nestjs/common';
 import { FilesService } from './files.service';
 import { FilesController } from './files.controller';
 import { FilesRepository } from './repositories/files.repository';
-import { UsersModule } from '@features/users/users.module';
-import { KeycloakModule } from '@infrastructure/keycloak';
+import { StorageModule } from '@infrastructure/storage/storage.module';
 
 @Module({
-  imports: [UsersModule, KeycloakModule],
+  imports: [StorageModule],
   providers: [FilesService, FilesRepository],
   controllers: [FilesController],
   exports: [FilesService, FilesRepository],

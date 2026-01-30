@@ -48,4 +48,9 @@ export class StorageService implements IStorageService {
   async exists(key: string) {
     return this.storageService.exists(key);
   }
+
+  getStorageType(): 'local' | 's3' {
+    const storageType = this.configService.get<string>('STORAGE_TYPE', 'local');
+    return storageType === 's3' ? 's3' : 'local';
+  }
 }

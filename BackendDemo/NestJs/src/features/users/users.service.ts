@@ -1,11 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { UsersRepository, UpdateUserData } from './repositories/users.repository';
-import { UserResponseDto } from './dtos';
-import { KeycloakUser } from '@infrastructure/keycloak';
+import { UserResponseDto } from './dtos/user-response.dto';
 
 interface UpdateUserRequest {
   name?: string;
-  email?: string;
   avatarUrl?: string;
 }
 
@@ -22,32 +20,18 @@ export class UsersService {
   constructor(private usersRepository: UsersRepository) {}
 
   /**
-   * Retorna o usuário já existente para o keycloakId informado.
-   * Não cria novos usuários (frontend é responsável pela criação).
-   */
-  async findOrCreateUser(keycloakUser: KeycloakUser) {
-    const user = await this.usersRepository.findByKeycloakId(keycloakUser.sub);
-
-    if (!user) {
-      throw new NotFoundException('Usuário não encontrado. Contate o administrador.');
-    }
-
-    return user;
-  }
-
-  /**
    * Obtém o perfil do usuário autenticado
    *
    * Lógica:
-   * - Busca usuário pelo keycloakId usando repository
+   * - Busca usuário pelo ID usando repository
    * - Se não encontrar → erro
    * - Retorna dados do usuário
    */
-  async getProfile(keycloakId: string): Promise<GetProfileResponse> {
-    const user = await this.usersRepository.findByKeycloakId(keycloakId);
+  async getProfile(userId: string): Promise<GetProfileResponse> {
+    const user = await this.usersRepository.findById(userId);
 
     if (!user) {
-      throw new NotFoundException('Usuário não encontrado. Por favor, contate o administrador.');
+      throw new NotFoundException('Usuário não encontrado.');
     }
 
     return {
@@ -64,14 +48,14 @@ export class UsersService {
    * - Retorna dados atualizados
    */
   async updateProfile(
-    keycloakId: string,
+    userId: string,
     updateUserRequest: UpdateUserRequest,
   ): Promise<UpdateUserResponse> {
     // Validar que o usuário existe antes de atualizar
-    const userExists = await this.usersRepository.findByKeycloakId(keycloakId);
+    const userExists = await this.usersRepository.findById(userId);
 
     if (!userExists) {
-      throw new NotFoundException('Usuário não encontrado. Por favor, contate o administrador.');
+      throw new NotFoundException('Usuário não encontrado.');
     }
 
     // Preparar dados para atualização (apenas campos permitidos)
@@ -81,7 +65,7 @@ export class UsersService {
       updateData.avatarUrl = updateUserRequest.avatarUrl;
 
     // Atualizar via repository
-    const updatedUser = await this.usersRepository.update(keycloakId, updateData);
+    const updatedUser = await this.usersRepository.update(userId, updateData);
 
     return {
       user: this.mapToUserResponse(updatedUser),

@@ -6,22 +6,25 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { FilesRepository, CreateFileData } from './repositories/files.repository';
-import { FileResponseDto, UploadResponseDto } from './dtos';
+import { FileResponseDto } from './dtos/file-response.dto';
+import { UploadResponseDto } from './dtos/upload-response.dto';
 import { StorageType } from '@prisma/client';
-import { promises as fs } from 'fs';
-import * as path from 'path';
-import { v4 as uuid } from 'uuid';
+import { StorageService } from '@infrastructure/storage/storage.service';
 import type { Express } from 'express';
 
 @Injectable()
 export class FilesService {
-  constructor(private filesRepository: FilesRepository) {}
+  constructor(
+    private filesRepository: FilesRepository,
+    private storageService: StorageService,
+  ) {}
 
   /**
    * Upload de arquivo
    *
    * Lógica:
    * - Validar tamanho (implementado no interceptor)
+   * - Salvar no storage (local ou S3)
    * - Criar registro no banco
    * - Retornar informações do arquivo
    */
@@ -30,14 +33,18 @@ export class FilesService {
       throw new BadRequestException('Arquivo não enviado');
     }
 
-    const storagePath = file.path ?? path.join('uploads', uuid());
+    const uploadResult = await this.storageService.upload(file);
+
+    // Detectar tipo de storage dinamicamente
+    const storageTypeConfig = this.storageService.getStorageType();
+    const storageType = storageTypeConfig === 's3' ? StorageType.S3 : StorageType.LOCAL;
 
     const createData: CreateFileData = {
       originalName: file.originalname,
       mimeType: file.mimetype,
       size: file.size,
-      storageType: StorageType.LOCAL,
-      storagePath,
+      storageType,
+      storagePath: uploadResult.key,
       storageUrl: null,
       metadata: null,
       uploadedById: userId,
@@ -68,30 +75,6 @@ export class FilesService {
     }
 
     return this.mapToFileResponse(file);
-  }
-
-  /**
-   * Deletar arquivo do usuário
-   *
-   * Lógica:
-   * - Validar que arquivo existe
-   * - Validar que arquivo pertence ao usuário
-   * - Deletar arquivo
-   */
-  async deleteFile(fileId: string, userId: string): Promise<{ message: string }> {
-    const file = await this.filesRepository.findById(fileId);
-
-    if (!file) {
-      throw new NotFoundException('Arquivo não encontrado');
-    }
-
-    if (file.uploadedById !== userId) {
-      throw new ForbiddenException('Você não tem permissão para deletar este arquivo');
-    }
-
-    await this.filesRepository.delete(fileId);
-
-    return { message: 'Arquivo deletado com sucesso' };
   }
 
   /**
@@ -161,7 +144,8 @@ export class FilesService {
     if (file.uploadedById !== userId) throw new ForbiddenException('Você não tem permissão');
 
     try {
-      const buffer = await fs.readFile(file.storagePath);
+      // Usar o StorageService para ler o arquivo
+      const buffer = await this.storageService.download(file.storagePath);
       return { buffer, file: this.mapToFileResponse(file) };
     } catch (error) {
       throw new InternalServerErrorException('Falha ao ler o arquivo do armazenamento');
@@ -174,13 +158,29 @@ export class FilesService {
     if (!file) throw new NotFoundException('Arquivo não encontrado');
     if (file.uploadedById !== userId) throw new ForbiddenException('Você não tem permissão');
 
+    // Usar o StorageService para obter a URL
+    const url = await this.storageService.getUrl(file.storagePath);
+
     return {
-      url: file.storageUrl ?? file.storagePath,
+      url,
       expiresIn,
     };
   }
 
   async delete(id: string, userId: string) {
-    return this.deleteFile(id, userId);
+    const file = await this.filesRepository.findById(id);
+
+    if (!file) throw new NotFoundException('Arquivo não encontrado');
+    if (file.uploadedById !== userId) throw new ForbiddenException('Você não tem permissão');
+
+    try {
+      // Deletar do storage
+      await this.storageService.delete(file.storagePath);
+      // Deletar do banco
+      await this.filesRepository.delete(id);
+      return { message: 'Arquivo deletado com sucesso' };
+    } catch (error) {
+      throw new InternalServerErrorException('Falha ao deletar o arquivo');
+    }
   }
 }

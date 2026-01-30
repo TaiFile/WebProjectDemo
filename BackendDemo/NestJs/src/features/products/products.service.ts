@@ -4,7 +4,7 @@ import {
   CreateProductData,
   UpdateProductData,
 } from './repositories/products.repository';
-import { ProductResponseDto } from './dtos';
+import { ProductResponseDto } from './dtos/product-response.dto';
 
 // Suponha que exista também uma CategoryRepository
 // import { CategoriesRepository } from '@features/categories/repositories';

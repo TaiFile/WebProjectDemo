@@ -2,13 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@infrastructure/database/prisma.service';
 import { User } from '@prisma/client';
 
-export interface CreateUserData {
-  keycloakId: string;
-  email: string;
-  name?: string | null;
-  avatarUrl?: string | null;
-}
-
 export interface UpdateUserData {
   name?: string;
   avatarUrl?: string | null;
@@ -17,15 +10,6 @@ export interface UpdateUserData {
 @Injectable()
 export class UsersRepository {
   constructor(private prisma: PrismaService) {}
-
-  /**
-   * Buscar usuário por ID único do Keycloak
-   */
-  async findByKeycloakId(keycloakId: string): Promise<User | null> {
-    return this.prisma.user.findUnique({
-      where: { keycloakId },
-    });
-  }
 
   /**
    * Buscar usuário por ID da aplicação
@@ -55,25 +39,11 @@ export class UsersRepository {
   }
 
   /**
-   * Criar novo usuário
-   */
-  async create(data: CreateUserData): Promise<User> {
-    return this.prisma.user.create({
-      data: {
-        keycloakId: data.keycloakId,
-        email: data.email,
-        name: data.name ?? null,
-        avatarUrl: data.avatarUrl ?? null,
-      },
-    });
-  }
-
-  /**
    * Atualizar usuário
    */
-  async update(keycloakId: string, data: UpdateUserData): Promise<User> {
+  async update(id: string, data: UpdateUserData): Promise<User> {
     return this.prisma.user.update({
-      where: { keycloakId },
+      where: { id },
       data,
     });
   }
@@ -81,18 +51,18 @@ export class UsersRepository {
   /**
    * Deletar usuário
    */
-  async delete(keycloakId: string): Promise<void> {
+  async delete(id: string): Promise<void> {
     await this.prisma.user.delete({
-      where: { keycloakId },
+      where: { id },
     });
   }
 
   /**
    * Verificar se usuário existe
    */
-  async exists(keycloakId: string): Promise<boolean> {
+  async exists(id: string): Promise<boolean> {
     const user = await this.prisma.user.findUnique({
-      where: { keycloakId },
+      where: { id },
     });
     return !!user;
   }

@@ -1,7 +1,7 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '@infrastructure/database';
-import { MercadoPagoService } from '@infrastructure/payments';
-import { CreatePreferenceDto } from './dtos';
+import { PrismaService } from '@infrastructure/database/prisma.service';
+import { MercadoPagoService } from '@infrastructure/payments/mercadopago.service';
+import { CreatePreferenceDto } from './dtos/create-preference.dto';
 import { PaymentStatus } from '@prisma/client';
 
 @Injectable()

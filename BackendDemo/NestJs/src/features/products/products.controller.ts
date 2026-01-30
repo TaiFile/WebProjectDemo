@@ -11,20 +11,18 @@ import {
   HttpCode,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
-import { CreateProductSchema, UpdateProductSchema, PaginationSchema } from './dtos';
-import { JwtAuthGuard } from '@common/guards';
+import { CreateProductSchema } from './dtos/create-product.dto';
+import { UpdateProductSchema } from './dtos/update-product.dto';
+import { PaginationSchema } from './dtos/pagination.dto';
+import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
 import { ZodValidationPipe } from '@common/pipes/zod-validation.pipe';
-import { CurrentUser } from '@common/decorators';
-import { KeycloakUser } from '@infrastructure/keycloak';
-import { UsersService } from '@features/users/users.service';
+import { CurrentUser } from '@common/decorators/current-user.decorator';
+import { UserPayload } from '@features/auth/strategies/jwt.strategy';
 
 @Controller('products')
 @UseGuards(JwtAuthGuard)
 export class ProductsController {
-  constructor(
-    private readonly productsService: ProductsService,
-    private readonly usersService: UsersService,
-  ) {}
+  constructor(private readonly productsService: ProductsService) {}
 
   /**
    * Controller: Apenas recebe, valida e delega
@@ -36,14 +34,13 @@ export class ProductsController {
   @Post()
   @HttpCode(201)
   async create(
-    @CurrentUser() keycloakUser: KeycloakUser,
+    @CurrentUser() user: UserPayload,
     @Body(new ZodValidationPipe(CreateProductSchema))
     createProductDto: any,
   ) {
-    const user = await this.usersService.findOrCreateUser(keycloakUser);
     const { product } = await this.productsService.create({
       ...createProductDto,
-      createdById: user.id,
+      createdById: user.sub,
     });
     return product;
   }
