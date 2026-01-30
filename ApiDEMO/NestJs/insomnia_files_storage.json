@@ -1,0 +1,244 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2026-01-30T20:30:00.000Z",
+  "__export_source": "insomnia.desktop.app:v2023.5.8",
+  "resources": [
+    {
+      "_id": "req_files_upload",
+      "parentId": "fld_files",
+      "modified": 1706648400000,
+      "created": 1706648400000,
+      "url": "{{ _.base_url }}/files/upload",
+      "name": "Upload File",
+      "description": "Faz upload de um arquivo para o local storage",
+      "method": "POST",
+      "body": {
+        "mimeType": "multipart/form-data",
+        "params": [
+          {
+            "name": "file",
+            "value": "",
+            "description": "Arquivo para upload",
+            "id": "pair_file",
+            "type": "file",
+            "fileName": ""
+          }
+        ]
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.access_token }}",
+          "description": "Token JWT"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1706648400000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_files_list",
+      "parentId": "fld_files",
+      "modified": 1706648400000,
+      "created": 1706648400000,
+      "url": "{{ _.base_url }}/files",
+      "name": "Listar Meus Arquivos",
+      "description": "Lista todos os arquivos do usuário logado",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.access_token }}",
+          "description": "Token JWT"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1706648300000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_files_get_by_id",
+      "parentId": "fld_files",
+      "modified": 1706648400000,
+      "created": 1706648400000,
+      "url": "{{ _.base_url }}/files/{{ _.file_id }}",
+      "name": "Buscar Arquivo por ID",
+      "description": "Busca informações de um arquivo específico",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.access_token }}",
+          "description": "Token JWT"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1706648200000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_files_download",
+      "parentId": "fld_files",
+      "modified": 1706648400000,
+      "created": 1706648400000,
+      "url": "{{ _.base_url }}/files/{{ _.file_id }}/download",
+      "name": "Download de Arquivo",
+      "description": "Faz o download de um arquivo",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.access_token }}",
+          "description": "Token JWT"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1706648100000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_files_get_url",
+      "parentId": "fld_files",
+      "modified": 1706648400000,
+      "created": 1706648400000,
+      "url": "{{ _.base_url }}/files/{{ _.file_id }}/url?expiresIn=3600",
+      "name": "Obter URL do Arquivo",
+      "description": "Obtém URL de acesso ao arquivo (para S3 gera URL assinada)",
+      "method": "GET",
+      "body": {},
+      "parameters": [
+        {
+          "name": "expiresIn",
+          "value": "3600",
+          "description": "Tempo de expiração em segundos (para S3)",
+          "disabled": false
+        }
+      ],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.access_token }}",
+          "description": "Token JWT"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1706648000000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_files_delete",
+      "parentId": "fld_files",
+      "modified": 1706648400000,
+      "created": 1706648400000,
+      "url": "{{ _.base_url }}/files/{{ _.file_id }}",
+      "name": "Deletar Arquivo",
+      "description": "Deleta um arquivo do storage e do banco de dados",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.access_token }}",
+          "description": "Token JWT"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1706647900000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_files",
+      "parentId": "wrk_demo",
+      "modified": 1706648400000,
+      "created": 1706648400000,
+      "name": "Files (Storage)",
+      "description": "Testa o sistema de storage de arquivos (local ou S3)",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1706648400000,
+      "_type": "request_group"
+    },
+    {
+      "_id": "wrk_demo",
+      "parentId": null,
+      "modified": 1706648400000,
+      "created": 1706648400000,
+      "name": "Backend Demo - Files Storage",
+      "description": "Collection para testar o sistema de storage de arquivos",
+      "scope": "collection",
+      "_type": "workspace"
+    },
+    {
+      "_id": "env_demo",
+      "parentId": "wrk_demo",
+      "modified": 1706648400000,
+      "created": 1706648400000,
+      "name": "Base Environment",
+      "data": {
+        "base_url": "http://localhost:3000/api",
+        "access_token": "",
+        "file_id": ""
+      },
+      "dataPropertyOrder": {
+        "&base_url": 0,
+        "&access_token": 1,
+        "&file_id": 2
+      },
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 1706648400000,
+      "_type": "environment"
+    }
+  ]
+}
