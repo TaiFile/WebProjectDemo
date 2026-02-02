@@ -3,16 +3,6 @@ import { Reflector } from '@nestjs/core';
 import { ROLES_KEY } from '../decorators/roles.decorator';
 import { UserPayload } from '@features/auth/strategies/jwt.strategy';
 
-/**
- * Roles Guard
- * Checks if user has required roles to access a route
- * Use with @Roles() decorator
- *
- * NOTE: Para usar roles, você precisa:
- * 1. Adicionar campo 'role' ao User model no Prisma
- * 2. Incluir role no JWT payload
- * 3. Usar @Roles('admin') nos endpoints
- */
 @Injectable()
 export class RolesGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
@@ -24,7 +14,7 @@ export class RolesGuard implements CanActivate {
     ]);
 
     if (!requiredRoles || requiredRoles.length === 0) {
-      return true; // No roles required
+      return true;
     }
 
     const request = context.switchToHttp().getRequest();

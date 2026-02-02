@@ -29,11 +29,9 @@ export class LocalStorageService implements IStorageService {
       ? path.join(this.uploadPath, customPath, fileName)
       : path.join(this.uploadPath, fileName);
 
-    // Ensure subdirectory exists
     const directory = path.dirname(filePath);
     await fs.mkdir(directory, { recursive: true });
 
-    // Write file
     await fs.writeFile(filePath, file.buffer);
 
     this.logger.log(`File uploaded locally: ${filePath}`);
@@ -66,8 +64,6 @@ export class LocalStorageService implements IStorageService {
   }
 
   async getUrl(key: string): Promise<string> {
-    // For local storage, we return the file path
-    // In a real app, this would be an HTTP URL served by the app
     return key;
   }
 

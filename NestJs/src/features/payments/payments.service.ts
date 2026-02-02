@@ -13,19 +13,14 @@ export class PaymentsService {
     private mercadoPagoService: MercadoPagoService,
   ) {}
 
-  /**
-   * Create a MercadoPago payment preference
-   */
   async createPreference(userId: string, createPreferenceDto: CreatePreferenceDto) {
     const externalReference = `user-${userId}-${Date.now()}`;
 
-    // Create preference in MercadoPago
     const preference = await this.mercadoPagoService.createPreference({
       ...createPreferenceDto,
       externalReference,
     });
 
-    // Save payment intent in database
     const payment = await this.prisma.payment.create({
       data: {
         preferenceId: preference.id,
@@ -46,9 +41,6 @@ export class PaymentsService {
     };
   }
 
-  /**
-   * Process MercadoPago webhook
-   */
   async processWebhook(webhookData: any) {
     const processedData = await this.mercadoPagoService.processWebhook(webhookData);
 
@@ -57,7 +49,6 @@ export class PaymentsService {
       return;
     }
 
-    // Update payment in database
     const payment = await this.prisma.payment.findFirst({
       where: {
         externalReference: processedData.externalReference,
@@ -88,9 +79,6 @@ export class PaymentsService {
     return updatedPayment;
   }
 
-  /**
-   * Get user payment history
-   */
   async getUserHistory(userId: string) {
     const payments = await this.prisma.payment.findMany({
       where: { userId },
@@ -100,9 +88,6 @@ export class PaymentsService {
     return payments.map((payment) => this.mapPayment(payment));
   }
 
-  /**
-   * Get payment by ID
-   */
   async getPaymentById(id: string, userId: string) {
     const payment = await this.prisma.payment.findFirst({
       where: {
@@ -118,9 +103,6 @@ export class PaymentsService {
     return this.mapPayment(payment);
   }
 
-  /**
-   * Map MercadoPago status to our PaymentStatus enum
-   */
   private mapPaymentStatus(mpStatus: string): PaymentStatus {
     const statusMap: Record<string, PaymentStatus> = {
       approved: PaymentStatus.APPROVED,

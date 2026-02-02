@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const CreateUserSchema = z.object({
-  email: z.string().email('Email inválido'),
+  email: z.email('Email inválido'),
   password: z.string().min(8, 'Senha deve ter no mínimo 8 caracteres'),
   name: z.string().min(3, 'Nome deve ter no mínimo 3 caracteres'),
 });

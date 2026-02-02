@@ -8,19 +8,17 @@ async function bootstrap() {
 
   const app = await NestFactory.create(AppModule);
 
-  // Get config service
   const configService = app.get(ConfigService);
 
-  // Global prefix
-  app.setGlobalPrefix('api');
+  app.setGlobalPrefix('api', {
+    exclude: ['webhooks/mercadopago'],
+  });
 
-  // CORS
   app.enableCors({
     origin: true,
     credentials: true,
   });
 
-  // Global pipes
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -32,9 +30,6 @@ async function bootstrap() {
     }),
   );
 
-  // Filters e Interceptors são registrados globalmente via CommonModule
-
-  // Start server
   const port = configService.get<number>('PORT', 3000);
   await app.listen(port);
 

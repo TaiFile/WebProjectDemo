@@ -41,7 +41,6 @@ export class MailService implements OnModuleInit {
     const isDev = this.configService.get<string>('NODE_ENV') !== 'production';
 
     if (host && user && pass) {
-      // Usar SMTP configurado
       this.transporter = nodemailer.createTransport({
         host,
         port: port || 587,
@@ -78,9 +77,6 @@ export class MailService implements OnModuleInit {
     }
   }
 
-  /**
-   * Envia email genérico
-   */
   async sendEmail(options: {
     to: string;
     subject: string;
@@ -100,8 +96,6 @@ export class MailService implements OnModuleInit {
     try {
       const info = await this.transporter.sendMail(mailOptions);
       this.logger.log(`📧 Email enviado para: ${options.to}`);
-
-      // Se estiver usando Ethereal, mostra o link para visualizar o email
       const previewUrl = nodemailer.getTestMessageUrl(info);
       if (previewUrl) {
         this.logger.log(`📧 Preview URL: ${previewUrl}`);
@@ -112,9 +106,6 @@ export class MailService implements OnModuleInit {
     }
   }
 
-  /**
-   * Envia email de confirmação de email
-   */
   async sendConfirmationEmail(email: string, token: string): Promise<void> {
     const frontendUrl = this.configService.get<string>('FRONTEND_URL') || 'http://localhost:3000';
     const confirmationUrl = `${frontendUrl}/auth/confirm-email?token=${token}`;
@@ -161,9 +152,6 @@ export class MailService implements OnModuleInit {
     });
   }
 
-  /**
-   * Envia email de reset de senha
-   */
   async sendResetPasswordEmail(email: string, token: string): Promise<void> {
     const frontendUrl = this.configService.get<string>('FRONTEND_URL') || 'http://localhost:3000';
     const resetUrl = `${frontendUrl}/auth/reset-password?token=${token}`;

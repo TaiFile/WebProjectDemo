@@ -5,8 +5,6 @@ import {
   UpdateProductData,
 } from './repositories/products.repository';
 import { ProductResponseDto } from './dtos/product-response.dto';
-
-// Suponha que exista também uma CategoryRepository
 // import { CategoriesRepository } from '@features/categories/repositories';
 
 interface CreateProductRequest {
@@ -64,8 +62,6 @@ export class ProductsService {
    */
   async create(createProductRequest: CreateProductRequest): Promise<CreateProductResponse> {
     const { name, description, price, stock, imageUrl, createdById } = createProductRequest;
-
-    // Validar regras de negócio
     if (price <= 0) {
       throw new BadRequestException('Preço deve ser maior que zero');
     }
@@ -73,8 +69,6 @@ export class ProductsService {
     if (stock < 0) {
       throw new BadRequestException('Estoque não pode ser negativo');
     }
-
-    // Criar produto via repository
     const createData: CreateProductData = {
       name,
       description: description || null,
@@ -91,21 +85,14 @@ export class ProductsService {
     };
   }
 
-  /**
-   * Lógica de negócio: Atualizar produto
-   */
   async update(
     productId: string,
     updateProductRequest: UpdateProductRequest,
   ): Promise<UpdateProductResponse> {
-    // Validar que produto existe
     const product = await this.productsRepository.findById(productId);
-
     if (!product) {
       throw new NotFoundException('Produto não encontrado');
     }
-
-    // Validar regras de negócio se preço/estoque forem alterados
     if (updateProductRequest.price !== undefined && updateProductRequest.price <= 0) {
       throw new BadRequestException('Preço deve ser maior que zero');
     }
@@ -124,7 +111,6 @@ export class ProductsService {
     //   }
     // }
 
-    // Preparar dados para atualização
     const updateData: UpdateProductData = {
       ...(updateProductRequest.name && { name: updateProductRequest.name }),
       ...(updateProductRequest.description && {
@@ -139,7 +125,6 @@ export class ProductsService {
       }),
     };
 
-    // Atualizar via repository
     const updatedProduct = await this.productsRepository.update(productId, updateData);
 
     return {
@@ -147,9 +132,6 @@ export class ProductsService {
     };
   }
 
-  /**
-   * Lógica de negócio: Listar produtos com paginação
-   */
   async list(listProductsRequest: ListProductsRequest): Promise<ListProductsResponse> {
     const { page, limit, search } = listProductsRequest;
 
@@ -169,9 +151,6 @@ export class ProductsService {
     };
   }
 
-  /**
-   * Lógica de negócio: Obter produto por ID
-   */
   async findById(productId: string): Promise<ProductResponseDto> {
     const product = await this.productsRepository.findById(productId);
 
@@ -182,9 +161,6 @@ export class ProductsService {
     return this.mapToProductResponse(product);
   }
 
-  /**
-   * Lógica de negócio: Deletar produto
-   */
   async delete(productId: string): Promise<void> {
     const exists = await this.productsRepository.exists(productId);
 
@@ -195,9 +171,6 @@ export class ProductsService {
     await this.productsRepository.delete(productId);
   }
 
-  /**
-   * Mapeia entidade para DTO de resposta
-   */
   private mapToProductResponse(product: any): ProductResponseDto {
     return {
       id: product.id,

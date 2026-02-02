@@ -221,3 +221,10 @@ MIT
 ---
 
 **Objetivo**: Backend production-ready demonstrando boas práticas, pronto para clonar e iniciar novos projetos.
+
+
+**To Do**: 
+- Fazer a parte de categoria
+- Implementar e testar a parte de pagamento com divisão de dinheiro
+- Fazer o design patern de strategy para o payment
+- Fazer a parte dedicada para as roles no decorator

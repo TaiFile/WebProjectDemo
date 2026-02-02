@@ -4,10 +4,6 @@ import { IStorageService } from './storage.interface';
 import { LocalStorageService } from './local-storage.service';
 import { S3StorageService } from './s3-storage.service';
 
-/**
- * Storage Service Factory
- * Chooses between Local and S3 storage based on STORAGE_TYPE environment variable
- */
 @Injectable()
 export class StorageService implements IStorageService {
   private readonly logger = new Logger(StorageService.name);

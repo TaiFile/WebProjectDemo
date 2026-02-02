@@ -27,10 +27,9 @@ export class S3StorageService implements IStorageService {
         accessKeyId: this.configService.get<string>('AWS_ACCESS_KEY_ID'),
         secretAccessKey: this.configService.get<string>('AWS_SECRET_ACCESS_KEY'),
       },
-      // Suporte para MinIO e outros S3-compatible storages
       ...(endpoint && {
         endpoint,
-        forcePathStyle: true, // Necessário para MinIO
+        forcePathStyle: true,
       }),
     });
 

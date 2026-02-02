@@ -18,24 +18,12 @@ export class FilesService {
     private filesRepository: FilesRepository,
     private storageService: StorageService,
   ) {}
-
-  /**
-   * Upload de arquivo
-   *
-   * Lógica:
-   * - Validar tamanho (implementado no interceptor)
-   * - Salvar no storage (local ou S3)
-   * - Criar registro no banco
-   * - Retornar informações do arquivo
-   */
   async upload(userId: string, file: Express.Multer.File): Promise<UploadResponseDto> {
     if (!file) {
       throw new BadRequestException('Arquivo não enviado');
     }
 
     const uploadResult = await this.storageService.upload(file);
-
-    // Detectar tipo de storage dinamicamente
     const storageTypeConfig = this.storageService.getStorageType();
     const storageType = storageTypeConfig === 's3' ? StorageType.S3 : StorageType.LOCAL;
 
@@ -55,14 +43,6 @@ export class FilesService {
     return this.mapToUploadResponse(created);
   }
 
-  /**
-   * Obter arquivo do usuário
-   *
-   * Lógica:
-   * - Validar que arquivo existe
-   * - Validar que arquivo pertence ao usuário
-   * - Retornar dados do arquivo
-   */
   async getFile(fileId: string, userId: string): Promise<FileResponseDto> {
     const file = await this.filesRepository.findById(fileId);
 
@@ -76,10 +56,6 @@ export class FilesService {
 
     return this.mapToFileResponse(file);
   }
-
-  /**
-   * Listar arquivos do usuário
-   */
   async listUserFiles(userId: string, page: number = 1, limit: number = 10): Promise<any> {
     const skip = (page - 1) * limit;
 
@@ -97,9 +73,6 @@ export class FilesService {
     };
   }
 
-  /**
-   * Mapeia entidade para DTO de upload
-   */
   private mapToUploadResponse(file: any): UploadResponseDto {
     return {
       id: file.id,
@@ -144,7 +117,6 @@ export class FilesService {
     if (file.uploadedById !== userId) throw new ForbiddenException('Você não tem permissão');
 
     try {
-      // Usar o StorageService para ler o arquivo
       const buffer = await this.storageService.download(file.storagePath);
       return { buffer, file: this.mapToFileResponse(file) };
     } catch (error) {
@@ -158,7 +130,6 @@ export class FilesService {
     if (!file) throw new NotFoundException('Arquivo não encontrado');
     if (file.uploadedById !== userId) throw new ForbiddenException('Você não tem permissão');
 
-    // Usar o StorageService para obter a URL
     const url = await this.storageService.getUrl(file.storagePath);
 
     return {
@@ -174,9 +145,7 @@ export class FilesService {
     if (file.uploadedById !== userId) throw new ForbiddenException('Você não tem permissão');
 
     try {
-      // Deletar do storage
       await this.storageService.delete(file.storagePath);
-      // Deletar do banco
       await this.filesRepository.delete(id);
       return { message: 'Arquivo deletado com sucesso' };
     } catch (error) {

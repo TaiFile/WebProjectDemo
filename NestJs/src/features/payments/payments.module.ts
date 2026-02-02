@@ -1,13 +1,14 @@
 import { Module } from '@nestjs/common';
 import { PaymentsService } from './payments.service';
 import { PaymentsController } from './payments.controller';
+import { WebhooksController } from './webhooks.controller';
 import { PaymentsRepository } from './repositories/payments.repository';
 import { PaymentsModule as PaymentsInfraModule } from '@infrastructure/payments/payments.module';
 
 @Module({
   imports: [PaymentsInfraModule],
   providers: [PaymentsService, PaymentsRepository],
-  controllers: [PaymentsController],
+  controllers: [PaymentsController, WebhooksController],
   exports: [PaymentsService, PaymentsRepository],
 })
 export class PaymentsModule {}

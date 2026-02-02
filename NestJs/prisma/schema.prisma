@@ -7,7 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// User Model
 model User {
   id                       String    @id @default(uuid())
   email                    String    @unique
@@ -20,15 +19,14 @@ model User {
   createdAt                DateTime  @default(now())
   updatedAt                DateTime  @updatedAt
 
-  // Relations
-  products Product[]
-  payments Payment[]
-  files    File[]
+  products  Product[]
+  payments  Payment[]
+  files     File[]
+  addresses Address[]
 
   @@map("users")
 }
 
-// Product Model
 model Product {
   id          String    @id @default(uuid())
   name        String
@@ -37,11 +35,10 @@ model Product {
   stock       Int       @default(0)
   imageUrl    String?
   isActive    Boolean   @default(true)
-  deletedAt   DateTime? // Soft delete
+  deletedAt   DateTime?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 
-  // Relations
   createdById String
   createdBy   User   @relation(fields: [createdById], references: [id])
 
@@ -50,7 +47,6 @@ model Product {
   @@map("products")
 }
 
-// Payment Model
 model Payment {
   id                String        @id @default(uuid())
   mercadoPagoId     String?       @unique
@@ -69,7 +65,6 @@ model Payment {
   createdAt         DateTime      @default(now())
   updatedAt         DateTime      @updatedAt
 
-  // Relations
   userId String
   user   User   @relation(fields: [userId], references: [id])
 
@@ -86,20 +81,18 @@ enum PaymentStatus {
   REFUNDED
 }
 
-// File Model
 model File {
   id           String      @id @default(uuid())
   originalName String
   mimeType     String
   size         Int
   storageType  StorageType
-  storagePath  String // Local path or S3 key
-  storageUrl   String? // Public URL if available
+  storagePath  String
+  storageUrl   String?
   metadata     Json?
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
 
-  // Relations
   uploadedById String
   uploadedBy   User   @relation(fields: [uploadedById], references: [id])
 
@@ -110,4 +103,31 @@ model File {
 enum StorageType {
   LOCAL
   S3
+}
+
+model Address {
+  id               String   @id @default(uuid())
+  label            String?
+  street           String
+  number           String
+  complement       String?
+  neighborhood     String
+  city             String
+  state            String
+  country          String   @default("Brasil")
+  zipCode          String
+  latitude         Float?
+  longitude        Float?
+  formattedAddress String?
+  placeId          String?
+  isDefault        Boolean  @default(false)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([latitude, longitude])
+  @@map("addresses")
 }

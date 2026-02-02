@@ -1,0 +1,353 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2026-01-31T12:00:00.000Z",
+  "__export_source": "insomnia.desktop.app:v2023.5.8",
+  "resources": [
+    {
+      "_id": "wrk_payments",
+      "parentId": null,
+      "modified": 1738339200000,
+      "created": 1738339200000,
+      "name": "MercadoPago Payments API",
+      "description": "Coleção para testar endpoints de pagamentos com MercadoPago",
+      "scope": "collection",
+      "_type": "workspace"
+    },
+    {
+      "_id": "env_payments",
+      "parentId": "wrk_payments",
+      "modified": 1738339200000,
+      "created": 1738339200000,
+      "name": "Base Environment",
+      "data": {
+        "base_url": "http://localhost:3000",
+        "token": ""
+      },
+      "dataPropertyOrder": {
+        "&": ["base_url", "token"]
+      },
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 1738339200000,
+      "_type": "environment"
+    },
+    {
+      "_id": "fld_auth",
+      "parentId": "wrk_payments",
+      "modified": 1738339200000,
+      "created": 1738339200000,
+      "name": "🔐 Autenticação",
+      "description": "Endpoints de autenticação para obter token",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1738339200003,
+      "_type": "request_group"
+    },
+    {
+      "_id": "fld_payments",
+      "parentId": "wrk_payments",
+      "modified": 1738339200000,
+      "created": 1738339200000,
+      "name": "💳 Pagamentos",
+      "description": "Endpoints de pagamentos MercadoPago",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1738339200002,
+      "_type": "request_group"
+    },
+    {
+      "_id": "fld_webhooks",
+      "parentId": "wrk_payments",
+      "modified": 1738339200000,
+      "created": 1738339200000,
+      "name": "🔔 Webhooks",
+      "description": "Endpoints de webhooks (notificações do MercadoPago)",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1738339200001,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_register",
+      "parentId": "fld_auth",
+      "modified": 1738339200000,
+      "created": 1738339200000,
+      "url": "{{ _.base_url }}/auth/register",
+      "name": "1. Registrar Usuário",
+      "description": "Cria um novo usuário para testar pagamentos",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"teste@exemplo.com\",\n  \"password\": \"senha123\",\n  \"name\": \"Usuário Teste\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1738339200002,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_login",
+      "parentId": "fld_auth",
+      "modified": 1738339200000,
+      "created": 1738339200000,
+      "url": "{{ _.base_url }}/auth/login",
+      "name": "2. Login",
+      "description": "Faz login e retorna o token JWT. Copie o accessToken e cole na variável 'token' do ambiente.",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"teste@exemplo.com\",\n  \"password\": \"senha123\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1738339200001,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_create_preference",
+      "parentId": "fld_payments",
+      "modified": 1738339200000,
+      "created": 1738339200000,
+      "url": "{{ _.base_url }}/payments/create-preference",
+      "name": "Criar Preferência de Pagamento",
+      "description": "Cria uma preferência de pagamento no MercadoPago. Retorna o link para checkout.",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"title\": \"Produto Teste\",\n  \"description\": \"Descrição do produto de teste\",\n  \"unitPrice\": 99.90,\n  \"quantity\": 1\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": -1738339200003,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_create_preference_with_product",
+      "parentId": "fld_payments",
+      "modified": 1738339200000,
+      "created": 1738339200000,
+      "url": "{{ _.base_url }}/payments/create-preference",
+      "name": "Criar Preferência (com Produto)",
+      "description": "Cria uma preferência de pagamento associada a um produto existente",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"title\": \"Produto da Loja\",\n  \"description\": \"Produto cadastrado no sistema\",\n  \"unitPrice\": 150.00,\n  \"quantity\": 2,\n  \"productId\": \"uuid-do-produto-aqui\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": -1738339200002,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_payment_history",
+      "parentId": "fld_payments",
+      "modified": 1738339200000,
+      "created": 1738339200000,
+      "url": "{{ _.base_url }}/payments/user/history",
+      "name": "Histórico de Pagamentos",
+      "description": "Lista todos os pagamentos do usuário autenticado",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": -1738339200001,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_payment_by_id",
+      "parentId": "fld_payments",
+      "modified": 1738339200000,
+      "created": 1738339200000,
+      "url": "{{ _.base_url }}/payments/:id",
+      "name": "Buscar Pagamento por ID",
+      "description": "Busca um pagamento específico pelo ID",
+      "method": "GET",
+      "body": {},
+      "parameters": [
+        {
+          "name": "id",
+          "value": "uuid-do-pagamento",
+          "disabled": false
+        }
+      ],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": -1738339200000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_webhook_payment_approved",
+      "parentId": "fld_webhooks",
+      "modified": 1738339200000,
+      "created": 1738339200000,
+      "url": "{{ _.base_url }}/webhooks/mercadopago",
+      "name": "⚠️ Simular Webhook - Payment.Updated",
+      "description": "🚨 IMPORTANTE: \n1. Primeiro crie uma preferência e FAÇA O PAGAMENTO no link retornado\n2. Após o pagamento, o MercadoPago te dará um PAYMENT_ID\n3. Substitua '123456789' abaixo pelo ID REAL do pagamento\n4. Execute esta request para simular o webhook do MercadoPago\n\nEsta request simula a notificação que o MercadoPago enviaria ao seu servidor.",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"action\": \"payment.updated\",\n  \"type\": \"payment\",\n  \"data\": {\n    \"id\": \"123456789\"\n  },\n  \"date_created\": \"2026-02-01T12:00:00.000-03:00\",\n  \"id\": 12345,\n  \"live_mode\": false,\n  \"user_id\": \"123456\",\n  \"api_version\": \"v1\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1738339200002,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_webhook_merchant_order",
+      "parentId": "fld_webhooks",
+      "modified": 1738339200000,
+      "created": 1738339200000,
+      "url": "{{ _.base_url }}/webhooks/mercadopago",
+      "name": "Simular Webhook - Merchant Order",
+      "description": "Simula uma notificação de merchant order do MercadoPago",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"action\": \"created\",\n  \"type\": \"merchant_order\",\n  \"data\": {\n    \"id\": \"987654321\"\n  },\n  \"date_created\": \"2026-01-31T12:00:00.000-03:00\",\n  \"id\": 54321,\n  \"live_mode\": false,\n  \"user_id\": \"123456\",\n  \"api_version\": \"v1\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1738339200001,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_webhook_test",
+      "parentId": "fld_webhooks",
+      "modified": 1738339200000,
+      "created": 1738339200000,
+      "url": "{{ _.base_url }}/webhooks/mercadopago",
+      "name": "Simular Webhook - Test",
+      "description": "Testa se o endpoint de webhook está funcionando",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"action\": \"test\",\n  \"type\": \"test\",\n  \"data\": {\n    \"id\": \"test\"\n  }\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1738339200000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    }
+  ]
+}
