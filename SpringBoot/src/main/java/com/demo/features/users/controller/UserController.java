@@ -1,0 +1,62 @@
+package com.demo.features.users.controller;
+
+import com.demo.features.users.service.UserService;
+
+import com.demo.common.security.CurrentUser;
+import com.demo.common.security.UserPrincipal;
+import com.demo.features.users.dto.UpdateUserRequest;
+import com.demo.features.users.dto.UserResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/users")
+@RequiredArgsConstructor
+@Tag(name = "Users", description = "Gerenciamento de usuÃƒÂ¡rios")
+@SecurityRequirement(name = "bearerAuth")
+public class UserController {
+
+    private final UserService userService;
+
+    @GetMapping("/me")
+    @Operation(summary = "Obter dados do usuÃƒÂ¡rio atual")
+    public ResponseEntity<UserResponse> getMe(@CurrentUser UserPrincipal currentUser) {
+        UserResponse response = userService.getById(currentUser.getId());
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "Obter usuÃƒÂ¡rio por ID")
+    public ResponseEntity<UserResponse> getById(@PathVariable String id) {
+        UserResponse response = userService.getById(id);
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/me")
+    @Operation(summary = "Atualizar dados do usuÃƒÂ¡rio atual")
+    public ResponseEntity<UserResponse> updateMe(
+            @CurrentUser UserPrincipal currentUser,
+            @Valid @RequestBody UpdateUserRequest request
+    ) {
+        UserResponse response = userService.update(currentUser.getId(), request);
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/me")
+    @Operation(summary = "Deletar conta do usuÃƒÂ¡rio atual")
+    public ResponseEntity<Void> deleteMe(@CurrentUser UserPrincipal currentUser) {
+        userService.delete(currentUser.getId());
+        return ResponseEntity.noContent().build();
+    }
+}
