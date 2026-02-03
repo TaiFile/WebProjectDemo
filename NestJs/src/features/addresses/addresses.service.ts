@@ -71,7 +71,6 @@ export class AddressesService {
 
     const address = await this.addressesRepository.create(createData);
 
-    // Se for o primeiro endereço, marca como padrão
     const count = await this.addressesRepository.countByUser(userId);
     if (count === 1) {
       await this.addressesRepository.update(address.id, { isDefault: true });
@@ -313,7 +312,6 @@ export class AddressesService {
 
     const address = await this.addressesRepository.create(createData);
 
-    // Se for o primeiro endereço, marca como padrão
     const count = await this.addressesRepository.countByUser(userId);
     if (count === 1) {
       await this.addressesRepository.update(address.id, { isDefault: true });
