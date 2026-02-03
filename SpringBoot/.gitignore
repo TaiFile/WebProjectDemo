@@ -10,6 +10,10 @@ target/
 *.iml
 *.ipr
 
+# Development properties
+/resources/applicativo-dev.properties
+src/main/resources/application-dev.properties
+
 # Eclipse
 .apt_generated
 .classpath

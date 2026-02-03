@@ -8,7 +8,6 @@ import com.demo.features.products.dto.CreateProductRequest;
 import com.demo.features.products.dto.ProductListResponse;
 import com.demo.features.products.dto.ProductResponse;
 import com.demo.features.products.dto.UpdateProductRequest;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -28,7 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/products")
 @RequiredArgsConstructor
-@Tag(name = "Products", description = "Gerenciamento de produtos")
 public class ProductController {
 
     private final ProductService productService;

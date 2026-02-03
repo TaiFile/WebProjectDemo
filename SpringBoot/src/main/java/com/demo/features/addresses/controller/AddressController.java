@@ -9,7 +9,6 @@ import com.demo.features.addresses.dto.CalculateDistanceRequest;
 import com.demo.features.addresses.dto.CreateAddressRequest;
 import com.demo.features.addresses.dto.DistanceResponse;
 import com.demo.features.addresses.dto.UpdateAddressRequest;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -30,7 +29,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/addresses")
 @RequiredArgsConstructor
-@Tag(name = "Addresses", description = "Gerenciamento de endereÃƒÆ’Ã‚Â§os")
 @SecurityRequirement(name = "bearerAuth")
 public class AddressController {
 

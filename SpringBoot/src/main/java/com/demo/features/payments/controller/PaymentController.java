@@ -1,18 +1,8 @@
 package com.demo.features.payments.controller;
 
-import com.demo.features.payments.service.PaymentService;
+import java.io.IOException;
+import java.util.List;
 
-import com.demo.common.security.CurrentUser;
-import com.demo.common.security.UserPrincipal;
-import com.demo.features.payments.dto.CreatePreferenceRequest;
-import com.demo.features.payments.dto.PaymentResponse;
-import com.demo.features.payments.dto.PreferenceResponse;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,19 +14,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
-import java.util.List;
+import com.demo.common.security.CurrentUser;
+import com.demo.common.security.UserPrincipal;
+import com.demo.features.payments.dto.CreatePreferenceRequest;
+import com.demo.features.payments.dto.PaymentResponse;
+import com.demo.features.payments.dto.PreferenceResponse;
+import com.demo.features.payments.service.PaymentService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/payments")
 @RequiredArgsConstructor
-@Tag(name = "Payments", description = "Gerenciamento de pagamentos")
 public class PaymentController {
 
     private final PaymentService paymentService;
 
     @PostMapping("/create-preference")
-    @Operation(summary = "Criar preferÃƒÂªncia de pagamento")
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<PreferenceResponse> createPreference(
             @CurrentUser UserPrincipal currentUser,
@@ -47,7 +44,6 @@ public class PaymentController {
     }
 
     @GetMapping("/user/history")
-    @Operation(summary = "HistÃƒÂ³rico de pagamentos do usuÃƒÂ¡rio")
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<List<PaymentResponse>> getUserHistory(@CurrentUser UserPrincipal currentUser) {
         List<PaymentResponse> response = paymentService.getUserHistory(currentUser.getId());
@@ -55,7 +51,6 @@ public class PaymentController {
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Obter pagamento por ID")
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<PaymentResponse> getById(
             @PathVariable String id,
@@ -66,7 +61,6 @@ public class PaymentController {
     }
 
     @GetMapping(value = "/success", produces = MediaType.TEXT_HTML_VALUE)
-    @Operation(summary = "PÃƒÂ¡gina de sucesso do pagamento")
     public void paymentSuccess(
             @RequestParam(required = false) String payment_id,
             @RequestParam(required = false) String status,
@@ -94,7 +88,7 @@ public class PaymentController {
             </head>
             <body>
                 <div class="container">
-                    <div class="success-icon">Ã¢Å“â€¦</div>
+                    <div class="success-icon">✅</div>
                     <h1>Pagamento Aprovado!</h1>
                     <p>Seu pagamento foi processado com sucesso.</p>
                     <div class="info">
@@ -103,7 +97,7 @@ public class PaymentController {
                         <div class="info-item"><span class="label">Tipo:</span> %s</div>
                         <div class="info-item"><span class="label">Ref:</span> %s</div>
                     </div>
-                    <p style="margin-top: 20px; font-size: 14px; color: #999;">VocÃƒÂª pode fechar esta janela.</p>
+                    <p style="margin-top: 20px; font-size: 14px; color: #999;">Você pode fechar esta janela.</p>
                 </div>
             </body>
             </html>
@@ -119,7 +113,6 @@ public class PaymentController {
     }
 
     @GetMapping(value = "/failure", produces = MediaType.TEXT_HTML_VALUE)
-    @Operation(summary = "PÃƒÂ¡gina de falha do pagamento")
     public void paymentFailure(
             @RequestParam(required = false) String payment_id,
             @RequestParam(required = false) String status,
@@ -143,11 +136,11 @@ public class PaymentController {
             </head>
             <body>
                 <div class="container">
-                    <div class="error-icon">Ã¢ÂÅ’</div>
+                    <div class="error-icon">❌</div>
                     <h1>Pagamento Recusado</h1>
-                    <p>Infelizmente seu pagamento nÃƒÂ£o foi aprovado.</p>
-                    <p>Por favor, tente novamente ou use outro mÃƒÂ©todo de pagamento.</p>
-                    <p style="margin-top: 20px; font-size: 14px; color: #999;">VocÃƒÂª pode fechar esta janela.</p>
+                    <p>Infelizmente seu pagamento não foi aprovado.</p>
+                    <p>Por favor, tente novamente ou use outro método de pagamento.</p>
+                    <p style="margin-top: 20px; font-size: 14px; color: #999;">Você pode fechar esta janela.</p>
                 </div>
             </body>
             </html>
@@ -158,7 +151,6 @@ public class PaymentController {
     }
 
     @GetMapping(value = "/pending", produces = MediaType.TEXT_HTML_VALUE)
-    @Operation(summary = "PÃƒÂ¡gina de pagamento pendente")
     public void paymentPending(
             @RequestParam(required = false) String payment_id,
             @RequestParam(required = false) String status,
@@ -182,11 +174,11 @@ public class PaymentController {
             </head>
             <body>
                 <div class="container">
-                    <div class="pending-icon">Ã¢ÂÂ³</div>
+                    <div class="pending-icon">⏳</div>
                     <h1>Pagamento Pendente</h1>
-                    <p>Seu pagamento estÃƒÂ¡ sendo processado.</p>
-                    <p>VocÃƒÂª receberÃƒÂ¡ uma notificaÃƒÂ§ÃƒÂ£o quando for confirmado.</p>
-                    <p style="margin-top: 20px; font-size: 14px; color: #999;">VocÃƒÂª pode fechar esta janela.</p>
+                    <p>Seu pagamento está sendo processado.</p>
+                    <p>Você receberá uma notificação quando for confirmado.</p>
+                    <p style="margin-top: 20px; font-size: 14px; color: #999;">Você pode fechar esta janela.</p>
                 </div>
             </body>
             </html>

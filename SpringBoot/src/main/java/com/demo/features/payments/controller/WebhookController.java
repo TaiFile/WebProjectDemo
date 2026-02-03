@@ -2,7 +2,6 @@ package com.demo.features.payments.controller;
 
 import com.demo.features.payments.service.PaymentService;
 
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +23,6 @@ public class WebhookController {
     private final PaymentService paymentService;
 
     @PostMapping("/mercadopago")
-    @Operation(summary = "Webhook do MercadoPago")
     public ResponseEntity<Void> mercadoPagoWebhook(@RequestBody Map<String, Object> data) {
         log.info("MercadoPago webhook received: {}", data);
 

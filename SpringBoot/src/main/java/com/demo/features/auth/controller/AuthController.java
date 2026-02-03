@@ -7,8 +7,6 @@ import com.demo.features.auth.dto.LoginRequest;
 import com.demo.features.auth.dto.MessageResponse;
 import com.demo.features.auth.dto.RegisterRequest;
 import com.demo.features.auth.dto.RegisterResponse;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
-@Tag(name = "Auth", description = "AutenticaÃƒÂ§ÃƒÂ£o e registro de usuÃƒÂ¡rios")
 public class AuthController {
 
     private final AuthService authService;
@@ -43,7 +40,6 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    @Operation(summary = "Login do usuÃƒÂ¡rio")
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request) {
         AuthResponse response = authService.login(request);
         return ResponseEntity.ok(response);

@@ -78,23 +78,23 @@ public class ProductService {
     }
 
     public ProductResponse getById(String id) {
-        Product product = productRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Produto nÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â£o encontrado"));
+        Product product = productRepository.findByIdAndActiveTrue(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Produto não encontrado"));
 
         return mapToResponse(product);
     }
 
     @Transactional
     public ProductResponse update(String id, UpdateProductRequest request) {
-        Product product = productRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Produto nÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â£o encontrado"));
+        Product product = productRepository.findByIdAndActiveTrue(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Produto não encontrado"));
 
         if (request.price() != null && request.price().compareTo(BigDecimal.ZERO) <= 0) {
-            throw new BusinessException("PreÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§o deve ser maior que zero");
+            throw new BusinessException("Preço deve ser maior que zero");
         }
 
         if (request.stock() != null && request.stock() < 0) {
-            throw new BusinessException("Estoque nÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â£o pode ser negativo");
+            throw new BusinessException("Estoque não pode ser negativo");
         }
 
         if (request.name() != null) {
@@ -123,11 +123,12 @@ public class ProductService {
     @Transactional
     public void delete(String id) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Produto nÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â£o encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Produto não encontrado"));
 
-        productRepository.delete(product);
+        product.setActive(false);
+        productRepository.save(product);
 
-        log.info("Product deleted (soft): {}", id);
+        log.info("Product deactivated: {}", id);
     }
 
     private ProductResponse mapToResponse(Product product) {
