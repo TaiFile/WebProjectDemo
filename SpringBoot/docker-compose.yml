@@ -42,34 +42,6 @@ services:
       timeout: 20s
       retries: 3
 
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: springboot-app
-    restart: unless-stopped
-    ports:
-      - '3000:3000'
-    environment:
-      DB_HOST: postgres
-      DB_PORT: 5432
-      DB_NAME: demo_db
-      DB_USER: demo_user
-      DB_PASSWORD: demo_pass
-      PORT: 3000
-      JWT_SECRET: c3VhLWNoYXZlLXNlY3JldGEtYXF1aS1taW5pbW8tMzItY2FyYWN0ZXJlcw==
-      STORAGE_TYPE: s3
-      AWS_ENDPOINT: http://minio:9000
-      AWS_ACCESS_KEY_ID: minioadmin
-      AWS_SECRET_ACCESS_KEY: minioadmin123
-      AWS_S3_BUCKET: demo-bucket
-    depends_on:
-      postgres:
-        condition: service_healthy
-      minio:
-        condition: service_healthy
-    networks:
-      - demo-network
 
 volumes:
   postgres_data:

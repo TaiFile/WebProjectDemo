@@ -41,6 +41,8 @@ spring:
           auth: true
           starttls:
             enable: true
+          ssl:
+            trust: "*"
     from: ${MAIL_FROM:noreply@example.com}
 
   servlet:
@@ -51,6 +53,9 @@ spring:
 app:
   url: ${APP_URL:http://localhost:3000}
   frontend-url: ${FRONTEND_URL:http://localhost:3000}
+
+  auth:
+    require-email-confirmation: ${REQUIRE_EMAIL_CONFIRMATION:false}
 
   jwt:
     public-key: classpath:certs/public.pem
