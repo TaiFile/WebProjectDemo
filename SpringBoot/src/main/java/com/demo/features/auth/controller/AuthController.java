@@ -2,6 +2,8 @@ package com.demo.features.auth.controller;
 
 import com.demo.features.auth.service.AuthService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import org.springframework.security.core.Authentication;
 import com.demo.features.auth.dto.AuthResponse;
 import com.demo.features.auth.dto.LoginRequest;
 import com.demo.features.auth.dto.MessageResponse;

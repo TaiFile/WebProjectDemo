@@ -2,8 +2,6 @@ package com.demo.features.addresses.controller;
 
 import com.demo.features.addresses.service.AddressService;
 
-import com.demo.common.security.CurrentUser;
-import com.demo.common.security.UserPrincipal;
 import com.demo.features.addresses.dto.AddressResponse;
 import com.demo.features.addresses.dto.CalculateDistanceRequest;
 import com.demo.features.addresses.dto.CreateAddressRequest;
@@ -15,6 +13,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -35,55 +34,54 @@ public class AddressController {
     private final AddressService addressService;
 
     @PostMapping
-    @Operation(summary = "Criar endereÃƒÆ’Ã‚Â§o")
     public ResponseEntity<AddressResponse> create(
-            @CurrentUser UserPrincipal currentUser,
+            Authentication auth,
             @Valid @RequestBody CreateAddressRequest request
     ) {
-        AddressResponse response = addressService.create(currentUser.getId(), request);
+        String userId = auth.getName();
+        AddressResponse response = addressService.create(userId, request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping
-    @Operation(summary = "Listar endereÃƒÆ’Ã‚Â§os do usuÃƒÆ’Ã‚Â¡rio")
-    public ResponseEntity<List<AddressResponse>> getUserAddresses(@CurrentUser UserPrincipal currentUser) {
-        List<AddressResponse> response = addressService.getUserAddresses(currentUser.getId());
+    public ResponseEntity<List<AddressResponse>> getUserAddresses(Authentication auth) {
+        String userId = auth.getName();
+        List<AddressResponse> response = addressService.getUserAddresses(userId);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Obter endereÃƒÆ’Ã‚Â§o por ID")
     public ResponseEntity<AddressResponse> getById(
             @PathVariable String id,
-            @CurrentUser UserPrincipal currentUser
+            Authentication auth
     ) {
-        AddressResponse response = addressService.getById(id, currentUser.getId());
+        String userId = auth.getName();
+        AddressResponse response = addressService.getById(id, userId);
         return ResponseEntity.ok(response);
     }
 
     @PatchMapping("/{id}")
-    @Operation(summary = "Atualizar endereÃƒÆ’Ã‚Â§o")
     public ResponseEntity<AddressResponse> update(
             @PathVariable String id,
-            @CurrentUser UserPrincipal currentUser,
+            Authentication auth,
             @Valid @RequestBody UpdateAddressRequest request
     ) {
-        AddressResponse response = addressService.update(id, currentUser.getId(), request);
+        String userId = auth.getName();
+        AddressResponse response = addressService.update(id, userId, request);
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Deletar endereÃƒÆ’Ã‚Â§o")
     public ResponseEntity<Void> delete(
             @PathVariable String id,
-            @CurrentUser UserPrincipal currentUser
+            Authentication auth
     ) {
-        addressService.delete(id, currentUser.getId());
+        String userId = auth.getName();
+        addressService.delete(id, userId);
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/calculate-distance")
-    @Operation(summary = "Calcular distÃƒÆ’Ã‚Â¢ncia entre dois pontos")
     public ResponseEntity<DistanceResponse> calculateDistance(
             @Valid @RequestBody CalculateDistanceRequest request
     ) {

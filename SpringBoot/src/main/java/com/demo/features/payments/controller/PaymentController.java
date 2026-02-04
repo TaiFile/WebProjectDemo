@@ -3,6 +3,7 @@ package com.demo.features.payments.controller;
 import java.io.IOException;
 import java.util.List;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,15 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.demo.common.security.CurrentUser;
-import com.demo.common.security.UserPrincipal;
 import com.demo.features.payments.dto.CreatePreferenceRequest;
 import com.demo.features.payments.dto.PaymentResponse;
 import com.demo.features.payments.dto.PreferenceResponse;
 import com.demo.features.payments.service.PaymentService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -36,17 +33,19 @@ public class PaymentController {
     @PostMapping("/create-preference")
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<PreferenceResponse> createPreference(
-            @CurrentUser UserPrincipal currentUser,
+            Authentication auth,
             @Valid @RequestBody CreatePreferenceRequest request
     ) {
-        PreferenceResponse response = paymentService.createPreference(currentUser.getId(), request);
+        String userId = auth.getName();
+        PreferenceResponse response = paymentService.createPreference(userId, request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/user/history")
     @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<List<PaymentResponse>> getUserHistory(@CurrentUser UserPrincipal currentUser) {
-        List<PaymentResponse> response = paymentService.getUserHistory(currentUser.getId());
+    public ResponseEntity<List<PaymentResponse>> getUserHistory(Authentication auth) {
+        String userId = auth.getName();
+        List<PaymentResponse> response = paymentService.getUserHistory(userId);
         return ResponseEntity.ok(response);
     }
 
@@ -54,9 +53,10 @@ public class PaymentController {
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<PaymentResponse> getById(
             @PathVariable String id,
-            @CurrentUser UserPrincipal currentUser
+            Authentication auth
     ) {
-        PaymentResponse response = paymentService.getById(id, currentUser.getId());
+        String userId = auth.getName();
+        PaymentResponse response = paymentService.getById(id, userId);
         return ResponseEntity.ok(response);
     }
 

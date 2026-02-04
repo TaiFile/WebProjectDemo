@@ -14,6 +14,10 @@ target/
 /resources/applicativo-dev.properties
 src/main/resources/application-dev.properties
 
+# RSA Keys (JWT)
+src/main/resources/certs/
+*.pem
+
 # Eclipse
 .apt_generated
 .classpath

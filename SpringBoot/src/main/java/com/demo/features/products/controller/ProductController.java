@@ -2,8 +2,6 @@ package com.demo.features.products.controller;
 
 import com.demo.features.products.service.ProductService;
 
-import com.demo.common.security.CurrentUser;
-import com.demo.common.security.UserPrincipal;
 import com.demo.features.products.dto.CreateProductRequest;
 import com.demo.features.products.dto.ProductListResponse;
 import com.demo.features.products.dto.ProductResponse;
@@ -14,6 +12,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -32,18 +31,17 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping
-    @Operation(summary = "Criar produto")
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<ProductResponse> create(
-            @CurrentUser UserPrincipal currentUser,
+            Authentication auth,
             @Valid @RequestBody CreateProductRequest request
     ) {
-        ProductResponse response = productService.create(currentUser.getId(), request);
+        String userId = auth.getName();
+        ProductResponse response = productService.create(userId, request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping
-    @Operation(summary = "Listar produtos")
     public ResponseEntity<ProductListResponse> list(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int limit,
@@ -54,14 +52,12 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Obter produto por ID")
     public ResponseEntity<ProductResponse> getById(@PathVariable String id) {
         ProductResponse response = productService.getById(id);
         return ResponseEntity.ok(response);
     }
 
     @PatchMapping("/{id}")
-    @Operation(summary = "Atualizar produto")
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<ProductResponse> update(
             @PathVariable String id,
@@ -72,7 +68,6 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Deletar produto (soft delete)")
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<Void> delete(@PathVariable String id) {
         productService.delete(id);

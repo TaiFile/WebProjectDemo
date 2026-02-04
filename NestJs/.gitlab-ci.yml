@@ -1,0 +1,77 @@
+stages:
+  - lint
+  - build
+  - test
+
+variables:
+  NODE_VERSION: "20"
+  npm_config_cache: "$CI_PROJECT_DIR/.npm"
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - .npm
+    - node_modules/
+
+before_script:
+  - echo "Node version:" $(node --version)
+  - echo "NPM version:" $(npm --version)
+  - npm ci --prefer-offline
+
+prettier:
+  stage: lint
+  image: node:${NODE_VERSION}-alpine
+  script:
+    - npm run format -- --check
+  allow_failure: false
+  only:
+    - merge_requests
+    - main
+    - develop
+
+eslint:
+  stage: lint
+  image: node:${NODE_VERSION}-alpine
+  script:
+    - npm run lint
+  allow_failure: true
+  only:
+    - merge_requests
+    - main
+    - develop
+
+build:
+  stage: build
+  image: node:${NODE_VERSION}-alpine
+  script:
+    - npx prisma generate
+    - npm run build
+  artifacts:
+    paths:
+      - dist/
+    expire_in: 1 hour
+  only:
+    - merge_requests
+    - main
+    - develop
+
+# test:unit:
+#   stage: test
+#   image: node:${NODE_VERSION}-alpine
+#   script:
+#     - npm run test -- --passWithNoTests
+#   coverage: '/All files[^|]*\|[^|]*\s+([\d\.]+)/'
+#   artifacts:
+#     reports:
+#       junit: junit.xml
+#       coverage_report:
+#         coverage_format: cobertura
+#         path: coverage/cobertura-coverage.xml
+#     paths:
+#       - coverage/
+#     expire_in: 1 week
+#   only:
+#     - merge_requests
+#     - main
+#     - develop
+#   allow_failure: true

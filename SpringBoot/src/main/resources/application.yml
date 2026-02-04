@@ -53,8 +53,8 @@ app:
   frontend-url: ${FRONTEND_URL:http://localhost:3000}
 
   jwt:
-    secret: ${JWT_SECRET:sua-chave-secreta-aqui-minimo-32-caracteres-para-seguranca}
-    expiration: ${JWT_EXPIRES_IN:86400000}
+    public-key: classpath:certs/public.pem
+    private-key: classpath:certs/private.pem
 
   storage:
     type: ${STORAGE_TYPE:local}

@@ -2,17 +2,15 @@ package com.demo.features.files.controller;
 
 import com.demo.features.files.service.FileService;
 
-import com.demo.common.security.CurrentUser;
-import com.demo.common.security.UserPrincipal;
 import com.demo.features.files.dto.FileResponse;
 import com.demo.features.files.dto.UploadResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,35 +32,39 @@ public class FileController {
 
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<UploadResponse> upload(
-            @CurrentUser UserPrincipal currentUser,
+            Authentication auth,
             @RequestParam("file") MultipartFile file
     ) {
-        UploadResponse response = fileService.upload(currentUser.getId(), file);
+        String userId = auth.getName();
+        UploadResponse response = fileService.upload(userId, file);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping
-    public ResponseEntity<List<FileResponse>> getUserFiles(@CurrentUser UserPrincipal currentUser) {
-        List<FileResponse> response = fileService.getUserFiles(currentUser.getId());
+    public ResponseEntity<List<FileResponse>> getUserFiles(Authentication auth) {
+        String userId = auth.getName();
+        List<FileResponse> response = fileService.getUserFiles(userId);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<FileResponse> getById(
             @PathVariable String id,
-            @CurrentUser UserPrincipal currentUser
+            Authentication auth
     ) {
-        FileResponse response = fileService.getById(id, currentUser.getId());
+        String userId = auth.getName();
+        FileResponse response = fileService.getById(id, userId);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}/download")
     public ResponseEntity<byte[]> download(
             @PathVariable String id,
-            @CurrentUser UserPrincipal currentUser
+            Authentication auth
     ) {
-        FileResponse fileInfo = fileService.getById(id, currentUser.getId());
-        byte[] content = fileService.download(id, currentUser.getId());
+        String userId = auth.getName();
+        FileResponse fileInfo = fileService.getById(id, userId);
+        byte[] content = fileService.download(id, userId);
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileInfo.originalName() + "\"")
@@ -73,9 +75,10 @@ public class FileController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(
             @PathVariable String id,
-            @CurrentUser UserPrincipal currentUser
+            Authentication auth
     ) {
-        fileService.delete(id, currentUser.getId());
+        String userId = auth.getName();
+        fileService.delete(id, userId);
         return ResponseEntity.noContent().build();
     }
 }

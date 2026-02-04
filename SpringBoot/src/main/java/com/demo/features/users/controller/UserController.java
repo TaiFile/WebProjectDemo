@@ -2,8 +2,6 @@ package com.demo.features.users.controller;
 
 import com.demo.features.users.service.UserService;
 
-import com.demo.common.security.CurrentUser;
-import com.demo.common.security.UserPrincipal;
 import com.demo.features.users.dto.UpdateUserRequest;
 import com.demo.features.users.dto.UserResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -11,6 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -28,8 +27,9 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/me")
-    public ResponseEntity<UserResponse> getMe(@CurrentUser UserPrincipal currentUser) {
-        UserResponse response = userService.getById(currentUser.getId());
+    public ResponseEntity<UserResponse> getMe(Authentication auth) {
+        String userId = auth.getName();
+        UserResponse response = userService.getById(userId);
         return ResponseEntity.ok(response);
     }
 
@@ -41,16 +41,18 @@ public class UserController {
 
     @PatchMapping("/me")
     public ResponseEntity<UserResponse> updateMe(
-            @CurrentUser UserPrincipal currentUser,
+            Authentication auth,
             @Valid @RequestBody UpdateUserRequest request
     ) {
-        UserResponse response = userService.update(currentUser.getId(), request);
+        String userId = auth.getName();
+        UserResponse response = userService.update(userId, request);
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/me")
-    public ResponseEntity<Void> deleteMe(@CurrentUser UserPrincipal currentUser) {
-        userService.delete(currentUser.getId());
+    public ResponseEntity<Void> deleteMe(Authentication auth) {
+        String userId = auth.getName();
+        userService.delete(userId);
         return ResponseEntity.noContent().build();
     }
 }

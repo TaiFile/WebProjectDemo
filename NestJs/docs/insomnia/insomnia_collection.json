@@ -1,0 +1,1311 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2026-02-02T00:00:00.000Z",
+  "__export_source": "insomnia.desktop.app:v2023.5.8",
+  "resources": [
+    {
+      "_id": "wrk_nestjs_api_completa",
+      "parentId": null,
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "name": "NestJS - API Completa",
+      "description": "Coleção unificada com todos os endpoints: Auth, Addresses, Files, Payments e Webhooks",
+      "scope": "collection",
+      "_type": "workspace"
+    },
+    {
+      "_id": "env_base",
+      "parentId": "wrk_nestjs_api_completa",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "name": "Base Environment",
+      "data": {
+        "base_url": "http://localhost:3000",
+        "jwt_token": ""
+      },
+      "dataPropertyOrder": {
+        "&": ["base_url", "jwt_token"]
+      },
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 1738454400000,
+      "_type": "environment"
+    },
+    {
+      "_id": "fld_auth",
+      "parentId": "wrk_nestjs_api_completa",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "name": "1. 🔐 Auth",
+      "description": "Endpoints de autenticação e gerenciamento de usuários",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1738454400001,
+      "_type": "request_group"
+    },
+    {
+      "_id": "fld_addresses",
+      "parentId": "wrk_nestjs_api_completa",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "name": "2. 📍 Addresses",
+      "description": "Gerenciamento de endereços e geolocalização",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1738454400002,
+      "_type": "request_group"
+    },
+    {
+      "_id": "fld_addresses_crud",
+      "parentId": "fld_addresses",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "name": "CRUD Endereços",
+      "description": "Operações básicas de endereços",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1738454400001,
+      "_type": "request_group"
+    },
+    {
+      "_id": "fld_addresses_geo",
+      "parentId": "fld_addresses",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "name": "Geolocalização",
+      "description": "Funcionalidades de geolocalização",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1738454400002,
+      "_type": "request_group"
+    },
+    {
+      "_id": "fld_files",
+      "parentId": "wrk_nestjs_api_completa",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "name": "3. 📁 Files",
+      "description": "Sistema de storage de arquivos (local ou S3/MinIO)",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1738454400003,
+      "_type": "request_group"
+    },
+    {
+      "_id": "fld_payments",
+      "parentId": "wrk_nestjs_api_completa",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "name": "4. 💳 Payments",
+      "description": "Pagamentos com MercadoPago",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1738454400004,
+      "_type": "request_group"
+    },
+    {
+      "_id": "fld_payments_card",
+      "parentId": "fld_payments",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "name": "Cartão de Crédito",
+      "description": "Testes com cartões de crédito",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1738454400001,
+      "_type": "request_group"
+    },
+    {
+      "_id": "fld_payments_pix",
+      "parentId": "fld_payments",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "name": "PIX",
+      "description": "Pagamentos via PIX",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1738454400002,
+      "_type": "request_group"
+    },
+    {
+      "_id": "fld_payments_others",
+      "parentId": "fld_payments",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "name": "Outros Métodos",
+      "description": "Boleto e outros",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1738454400003,
+      "_type": "request_group"
+    },
+    {
+      "_id": "fld_payments_query",
+      "parentId": "fld_payments",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "name": "Consultas",
+      "description": "Consultar pagamentos",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1738454400004,
+      "_type": "request_group"
+    },
+    {
+      "_id": "fld_webhooks",
+      "parentId": "wrk_nestjs_api_completa",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "name": "5. 🔔 Webhooks",
+      "description": "Webhooks do MercadoPago",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1738454400005,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_auth_01_register",
+      "parentId": "fld_auth",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "url": "{{ _.base_url }}/api/auth/register",
+      "name": "1. Registrar Usuário",
+      "description": "Cria um novo usuário no sistema",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"teste@example.com\",\n  \"password\": \"SenhaForte123\",\n  \"name\": \"Teste User\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1738454400001,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_auth_02_confirm_email",
+      "parentId": "fld_auth",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "url": "{{ _.base_url }}/api/auth/confirm-email",
+      "name": "2. Confirmar Email",
+      "description": "Confirma o email do usuário (pegar token do console/logs)",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"token\": \"COLE_O_TOKEN_AQUI_DO_CONSOLE\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1738454400002,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_auth_03_login",
+      "parentId": "fld_auth",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "url": "{{ _.base_url }}/api/auth/login",
+      "name": "3. Login",
+      "description": "Faz login e obtém token JWT. Copie o accessToken para a variável jwt_token do ambiente.",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"teste@example.com\",\n  \"password\": \"SenhaForte123\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1738454400003,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_auth_04_get_profile",
+      "parentId": "fld_auth",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "url": "{{ _.base_url }}/api/users/me",
+      "name": "4. Obter Perfil",
+      "description": "Retorna os dados do usuário autenticado",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwt_token }}"
+      },
+      "metaSortKey": -1738454400004,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_auth_05_update_profile",
+      "parentId": "fld_auth",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "url": "{{ _.base_url }}/api/users/me",
+      "name": "5. Atualizar Perfil",
+      "description": "Atualiza os dados do perfil do usuário",
+      "method": "PATCH",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Novo Nome\",\n  \"avatarUrl\": \"https://example.com/avatar.jpg\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwt_token }}"
+      },
+      "metaSortKey": -1738454400005,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_addresses_01_create",
+      "parentId": "fld_addresses_crud",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "url": "{{ _.base_url }}/addresses",
+      "name": "Criar Endereço",
+      "description": "Cria um novo endereço para o usuário autenticado",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"label\": \"Casa\",\n  \"street\": \"Avenida Paulista\",\n  \"number\": \"1000\",\n  \"complement\": \"Apto 123\",\n  \"neighborhood\": \"Bela Vista\",\n  \"city\": \"São Paulo\",\n  \"state\": \"SP\",\n  \"zipCode\": \"01310-100\",\n  \"isDefault\": true\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwt_token }}"
+      },
+      "metaSortKey": -1738454400001,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_addresses_02_list",
+      "parentId": "fld_addresses_crud",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "url": "{{ _.base_url }}/addresses",
+      "name": "Listar Endereços",
+      "description": "Lista todos os endereços do usuário autenticado",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwt_token }}"
+      },
+      "metaSortKey": -1738454400002,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_addresses_03_get_by_id",
+      "parentId": "fld_addresses_crud",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "url": "{{ _.base_url }}/addresses/:id",
+      "name": "Buscar Endereço por ID",
+      "description": "Busca um endereço específico pelo ID",
+      "method": "GET",
+      "body": {},
+      "parameters": [
+        {
+          "name": "id",
+          "value": "uuid-do-endereco",
+          "disabled": false
+        }
+      ],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwt_token }}"
+      },
+      "metaSortKey": -1738454400003,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_addresses_04_update",
+      "parentId": "fld_addresses_crud",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "url": "{{ _.base_url }}/addresses/:id",
+      "name": "Atualizar Endereço",
+      "description": "Atualiza um endereço existente",
+      "method": "PATCH",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"label\": \"Trabalho\",\n  \"number\": \"1500\",\n  \"complement\": \"Sala 201\"\n}"
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "value": "uuid-do-endereco",
+          "disabled": false
+        }
+      ],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwt_token }}"
+      },
+      "metaSortKey": -1738454400004,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_addresses_05_delete",
+      "parentId": "fld_addresses_crud",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "url": "{{ _.base_url }}/addresses/:id",
+      "name": "Deletar Endereço",
+      "description": "Remove um endereço do usuário",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [
+        {
+          "name": "id",
+          "value": "uuid-do-endereco",
+          "disabled": false
+        }
+      ],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwt_token }}"
+      },
+      "metaSortKey": -1738454400005,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_addresses_06_set_default",
+      "parentId": "fld_addresses_crud",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "url": "{{ _.base_url }}/addresses/:id/set-default",
+      "name": "Definir como Padrão",
+      "description": "Define um endereço como padrão",
+      "method": "PATCH",
+      "body": {},
+      "parameters": [
+        {
+          "name": "id",
+          "value": "uuid-do-endereco",
+          "disabled": false
+        }
+      ],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwt_token }}"
+      },
+      "metaSortKey": -1738454400006,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_geo_01_geocode",
+      "parentId": "fld_addresses_geo",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "url": "{{ _.base_url }}/addresses/geocode",
+      "name": "Geocodificar Endereço",
+      "description": "Converte um endereço de texto em coordenadas (latitude/longitude)",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"address\": \"Avenida Paulista, 1000, São Paulo - SP\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwt_token }}"
+      },
+      "metaSortKey": -1738454400001,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_geo_02_reverse",
+      "parentId": "fld_addresses_geo",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "url": "{{ _.base_url }}/addresses/reverse-geocode",
+      "name": "Reverse Geocoding",
+      "description": "Converte coordenadas em endereço",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"latitude\": -23.5632,\n  \"longitude\": -46.6542\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwt_token }}"
+      },
+      "metaSortKey": -1738454400002,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_geo_03_distance_coords",
+      "parentId": "fld_addresses_geo",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "url": "{{ _.base_url }}/addresses/distance",
+      "name": "Calcular Distância (Coordenadas)",
+      "description": "Calcula a distância entre dois pontos usando coordenadas",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"originLatitude\": -23.5632,\n  \"originLongitude\": -46.6542,\n  \"destinationLatitude\": -23.5505,\n  \"destinationLongitude\": -46.6333\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwt_token }}"
+      },
+      "metaSortKey": -1738454400003,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_geo_04_distance_ids",
+      "parentId": "fld_addresses_geo",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "url": "{{ _.base_url }}/addresses/distance",
+      "name": "Calcular Distância (IDs)",
+      "description": "Calcula a distância entre dois endereços salvos usando seus IDs",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"originAddressId\": \"uuid-endereco-origem\",\n  \"destinationAddressId\": \"uuid-endereco-destino\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwt_token }}"
+      },
+      "metaSortKey": -1738454400004,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_geo_05_autocomplete",
+      "parentId": "fld_addresses_geo",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "url": "{{ _.base_url }}/addresses/search/autocomplete",
+      "name": "Autocomplete de Endereço",
+      "description": "Busca sugestões de endereços enquanto digita",
+      "method": "GET",
+      "body": {},
+      "parameters": [
+        {
+          "name": "input",
+          "value": "Av Paulista",
+          "disabled": false
+        },
+        {
+          "name": "sessionToken",
+          "value": "token-opcional-para-billing",
+          "disabled": true
+        }
+      ],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwt_token }}"
+      },
+      "metaSortKey": -1738454400005,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_geo_06_nearby",
+      "parentId": "fld_addresses_geo",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "url": "{{ _.base_url }}/addresses/nearby",
+      "name": "Buscar Endereços Próximos",
+      "description": "Busca endereços do usuário próximos a uma coordenada",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"latitude\": -23.5632,\n  \"longitude\": -46.6542,\n  \"radiusInKm\": 10\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwt_token }}"
+      },
+      "metaSortKey": -1738454400006,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_geo_07_from_place",
+      "parentId": "fld_addresses_geo",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "url": "{{ _.base_url }}/addresses/from-place",
+      "name": "Criar a partir de Place ID",
+      "description": "Cria um endereço usando um Google Place ID (obtido via autocomplete)",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"placeId\": \"ChIJ0WGkg4FEzpQRrlsz_whLqZs\",\n  \"label\": \"Escritório\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwt_token }}"
+      },
+      "metaSortKey": -1738454400007,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_files_01_upload",
+      "parentId": "fld_files",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "url": "{{ _.base_url }}/api/files/upload",
+      "name": "Upload File",
+      "description": "Faz upload de um arquivo para o storage (local ou S3/MinIO)",
+      "method": "POST",
+      "body": {
+        "mimeType": "multipart/form-data",
+        "params": [
+          {
+            "name": "file",
+            "value": "",
+            "description": "Arquivo para upload",
+            "id": "pair_file_upload",
+            "type": "file",
+            "fileName": ""
+          }
+        ]
+      },
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwt_token }}"
+      },
+      "metaSortKey": -1738454400001,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_files_02_list",
+      "parentId": "fld_files",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "url": "{{ _.base_url }}/api/files",
+      "name": "Listar Meus Arquivos",
+      "description": "Lista todos os arquivos do usuário logado",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwt_token }}"
+      },
+      "metaSortKey": -1738454400002,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_files_03_get_by_id",
+      "parentId": "fld_files",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "url": "{{ _.base_url }}/api/files/:fileId",
+      "name": "Buscar Arquivo por ID",
+      "description": "Busca informações de um arquivo específico",
+      "method": "GET",
+      "body": {},
+      "parameters": [
+        {
+          "name": "fileId",
+          "value": "uuid-do-arquivo",
+          "disabled": false
+        }
+      ],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwt_token }}"
+      },
+      "metaSortKey": -1738454400003,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_files_04_download",
+      "parentId": "fld_files",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "url": "{{ _.base_url }}/api/files/:fileId/download",
+      "name": "Download de Arquivo",
+      "description": "Faz o download de um arquivo",
+      "method": "GET",
+      "body": {},
+      "parameters": [
+        {
+          "name": "fileId",
+          "value": "uuid-do-arquivo",
+          "disabled": false
+        }
+      ],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwt_token }}"
+      },
+      "metaSortKey": -1738454400004,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_files_05_get_url",
+      "parentId": "fld_files",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "url": "{{ _.base_url }}/api/files/:fileId/url",
+      "name": "Obter URL do Arquivo",
+      "description": "Obtém URL de acesso ao arquivo (para S3/MinIO gera URL assinada)",
+      "method": "GET",
+      "body": {},
+      "parameters": [
+        {
+          "name": "fileId",
+          "value": "uuid-do-arquivo",
+          "disabled": false
+        },
+        {
+          "name": "expiresIn",
+          "value": "3600",
+          "description": "Tempo de expiração em segundos",
+          "disabled": false
+        }
+      ],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwt_token }}"
+      },
+      "metaSortKey": -1738454400005,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_files_06_delete",
+      "parentId": "fld_files",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "url": "{{ _.base_url }}/api/files/:fileId",
+      "name": "Deletar Arquivo",
+      "description": "Deleta um arquivo do storage e do banco de dados",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [
+        {
+          "name": "fileId",
+          "value": "uuid-do-arquivo",
+          "disabled": false
+        }
+      ],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwt_token }}"
+      },
+      "metaSortKey": -1738454400006,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_payment_card_01_approved",
+      "parentId": "fld_payments_card",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "url": "{{ _.base_url }}/payments/create-preference",
+      "name": "Cartão - Aprovado",
+      "description": "Cria pagamento com cartão aprovado.\nCartão: 5031 4332 1540 6351 | CVV: 123 | Validade: 11/25 | Nome: APRO",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"title\": \"Produto Teste - Cartão Aprovado\",\n  \"description\": \"Pagamento teste com cartão de crédito aprovado\",\n  \"unitPrice\": 100.00,\n  \"quantity\": 1\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwt_token }}"
+      },
+      "metaSortKey": -1738454400001,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_payment_card_02_rejected",
+      "parentId": "fld_payments_card",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "url": "{{ _.base_url }}/payments/create-preference",
+      "name": "Cartão - Rejeitado",
+      "description": "Cria pagamento com cartão rejeitado.\nCartão: 5031 4332 1540 6351 | CVV: 123 | Validade: 11/25 | Nome: OTHE",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"title\": \"Produto Teste - Cartão Rejeitado\",\n  \"description\": \"Pagamento teste com cartão rejeitado\",\n  \"unitPrice\": 150.00,\n  \"quantity\": 1\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwt_token }}"
+      },
+      "metaSortKey": -1738454400002,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_payment_card_03_pending",
+      "parentId": "fld_payments_card",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "url": "{{ _.base_url }}/payments/create-preference",
+      "name": "Cartão - Pendente",
+      "description": "Cria pagamento com cartão pendente.\nCartão: 5031 4332 1540 6351 | CVV: 123 | Validade: 11/25 | Nome: CONT",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"title\": \"Produto Teste - Cartão Pendente\",\n  \"description\": \"Pagamento teste com cartão pendente\",\n  \"unitPrice\": 75.00,\n  \"quantity\": 2\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwt_token }}"
+      },
+      "metaSortKey": -1738454400003,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_payment_pix_01",
+      "parentId": "fld_payments_pix",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "url": "{{ _.base_url }}/payments/create-preference",
+      "name": "PIX - Criar Pagamento",
+      "description": "Cria preferência de pagamento PIX. Acesse o init_point e selecione PIX para gerar QR Code.",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"title\": \"Produto Teste - PIX\",\n  \"description\": \"Pagamento teste via PIX\",\n  \"unitPrice\": 50.00,\n  \"quantity\": 1\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwt_token }}"
+      },
+      "metaSortKey": -1738454400001,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_payment_boleto_01",
+      "parentId": "fld_payments_others",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "url": "{{ _.base_url }}/payments/create-preference",
+      "name": "Boleto - Criar Pagamento",
+      "description": "Cria preferência de pagamento com Boleto. Em teste, pode ser aprovado manualmente no painel MercadoPago.",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"title\": \"Produto Teste - Boleto\",\n  \"description\": \"Pagamento teste via Boleto Bancário\",\n  \"unitPrice\": 200.00,\n  \"quantity\": 1\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwt_token }}"
+      },
+      "metaSortKey": -1738454400001,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_payment_with_product",
+      "parentId": "fld_payments_others",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "url": "{{ _.base_url }}/payments/create-preference",
+      "name": "Criar Preferência (com Produto)",
+      "description": "Cria preferência associada a um produto existente no sistema",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"title\": \"Produto da Loja\",\n  \"description\": \"Produto cadastrado no sistema\",\n  \"unitPrice\": 150.00,\n  \"quantity\": 2,\n  \"productId\": \"uuid-do-produto-aqui\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwt_token }}"
+      },
+      "metaSortKey": -1738454400002,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_payment_query_01_history",
+      "parentId": "fld_payments_query",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "url": "{{ _.base_url }}/payments/user/history",
+      "name": "Histórico de Pagamentos",
+      "description": "Lista todos os pagamentos do usuário autenticado",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwt_token }}"
+      },
+      "metaSortKey": -1738454400001,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_payment_query_02_by_id",
+      "parentId": "fld_payments_query",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "url": "{{ _.base_url }}/payments/:id",
+      "name": "Buscar Pagamento por ID",
+      "description": "Busca um pagamento específico pelo ID",
+      "method": "GET",
+      "body": {},
+      "parameters": [
+        {
+          "name": "id",
+          "value": "uuid-do-pagamento",
+          "disabled": false
+        }
+      ],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwt_token }}"
+      },
+      "metaSortKey": -1738454400002,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_webhook_01_payment_updated",
+      "parentId": "fld_webhooks",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "url": "{{ _.base_url }}/webhooks/mercadopago",
+      "name": "Simular Webhook - Payment Updated",
+      "description": "⚠️ IMPORTANTE: Substitua o payment_id por um ID REAL retornado pelo MercadoPago após criar e completar um pagamento.",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"action\": \"payment.updated\",\n  \"api_version\": \"v1\",\n  \"data\": {\n    \"id\": \"SUBSTITUA_PELO_PAYMENT_ID_REAL\"\n  },\n  \"date_created\": \"2026-02-02T00:00:00.000Z\",\n  \"id\": 12345678,\n  \"live_mode\": false,\n  \"type\": \"payment\",\n  \"user_id\": \"123456789\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1738454400001,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_webhook_02_merchant_order",
+      "parentId": "fld_webhooks",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "url": "{{ _.base_url }}/webhooks/mercadopago",
+      "name": "Simular Webhook - Merchant Order",
+      "description": "Simula notificação de merchant order do MercadoPago",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"action\": \"created\",\n  \"type\": \"merchant_order\",\n  \"data\": {\n    \"id\": \"987654321\"\n  },\n  \"date_created\": \"2026-02-02T00:00:00.000Z\",\n  \"id\": 54321,\n  \"live_mode\": false,\n  \"user_id\": \"123456\",\n  \"api_version\": \"v1\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1738454400002,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_webhook_03_test",
+      "parentId": "fld_webhooks",
+      "modified": 1738454400000,
+      "created": 1738454400000,
+      "url": "{{ _.base_url }}/webhooks/mercadopago",
+      "name": "Simular Webhook - Test",
+      "description": "Testa se o endpoint de webhook está funcionando corretamente",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"action\": \"test\",\n  \"type\": \"test\",\n  \"data\": {\n    \"id\": \"test\"\n  }\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1738454400003,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    }
+  ]
+}
