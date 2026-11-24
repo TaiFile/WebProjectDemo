@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "codegraph": {
+      "command": "uvx",
+      "args": ["mcp-neo4j-cypher@0.6.0", "--transport", "stdio"],
+      "env": {
+        "NEO4J_URI": "${NEO4J_URI:-bolt://localhost:7687}",
+        "NEO4J_USERNAME": "${NEO4J_USER:-neo4j}",
+        "NEO4J_PASSWORD": "${NEO4J_PASSWORD}",
+        "NEO4J_DATABASE": "webprojectdemo",
+        "NEO4J_READ_ONLY": "true",
+        "NEO4J_NAMESPACE": "codegraph"
+      }
+    }
+  }
+}
